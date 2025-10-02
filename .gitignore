@@ -1,0 +1,45 @@
+# === Qt Creator / Qt Project files ===
+*.pro.user
+*.pro.user.*
+*.autosave
+*.qmlproject.user
+*.qmlproject.user.*
+*.qbs.user
+*.qbs.user.*
+
+# === Build artifacts ===
+build*/
+*/build*/
+debug/
+release/
+x64/
+x86/
+*.o
+*.obj
+*.dll
+*.exe
+*.pdb
+*.ilk
+*.a
+*.lib
+*.so
+*.dylib
+
+# === Qt specific ===
+.moc/
+*.moc
+*.qrc.dep
+.qmake.stash
+qrc_*.cpp
+ui_*.h
+
+# === CMake generated ===
+CMakeLists.txt.user
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+
+# === OS junk ===
+.DS_Store
+Thumbs.db
