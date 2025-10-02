@@ -1,4 +1,4 @@
-#include "crypto.h"
+    #include "crypto.h"
 #include "ui_crypto.h"
 #include <QDebug>
 #include <QFileDialog>
@@ -17,7 +17,7 @@ Crypto::~Crypto()
 {
     delete ui;
 }
-
+//проверка комитов 2
 
 static QString runJavaProcess(const QString& javaExe,
                               const QStringList& args,
