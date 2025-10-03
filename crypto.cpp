@@ -17,8 +17,7 @@ Crypto::~Crypto()
 {
     delete ui;
 }
-//проверка комитов 2
-
+//проверка комитов 3
 static QString runJavaProcess(const QString& javaExe,
                               const QStringList& args,
                               int timeoutMs,
@@ -45,22 +44,30 @@ static QString runJavaProcess(const QString& javaExe,
 static QString javaExePath()
 {
 #ifdef Q_OS_WIN
-    return "C:/Program Files/Java/jdk-25/bin/java.exe"; // или "C:/Program Files/Java/jdk-21/bin/java.exe"
+    return "C:/Program Files/Java/jdk-25/bin/java.exe";
 #else
     return "java";
 #endif
 }
 
-static QString jarPath()
+static QString jarPath(int  number_operation)
 {
-    // либо абсолютный путь, либо рядом с exe
-    return QCoreApplication::applicationDirPath() + "/analyzer.jar";
+    if(number_operation == 1){
+        return QCoreApplication::applicationDirPath() + "/analyzer.jar"; //sign.jar
+    }
+    else if(number_operation == 2){
+        return QCoreApplication::applicationDirPath() + "/analyzer.jar"; // check.jar
+    }
+    else if(number_operation == 3){
+        return QCoreApplication::applicationDirPath() + "/analyzer.jar"; // generate_keys
+    }
+    return 0;
 }
 
 // ---- Вариант А: запуск JAR с Main-Class ----
-static QStringList argsSign_Jar(const QString& file)  { return { "-jar", jarPath(), "sign",  file }; } // добавить файл с параметрами и ключами static QStringList argsSign_Jar(const QString& file)  { return { "-jar", jarPath(), "sign",  file, params, keys }; }
-static QStringList argsCheck_Jar(const QString& file) { return { "-jar", jarPath(), "check", file }; } // добавить файл с параметрами и ключами static QStringList argsCheck_Jar(const QString& file) { return { "-jar", jarPath(), "check", file, params, keys }; }
-static QStringList argsKeys_Jar()                     { return { "-jar", jarPath(), "keys"       }; } // придумать как должно работать
+static QStringList argsSign_Jar(const QString& file)  { return { "-jar", jarPath(1), "sign",  file }; } // добавить файл с параметрами и ключами static QStringList argsSign_Jar(const QString& file)  { return { "-jar", jarPath(), "sign",  file, params, keys }; }
+static QStringList argsCheck_Jar(const QString& file) { return { "-jar", jarPath(2), "check", file }; } // добавить файл с параметрами и ключами static QStringList argsCheck_Jar(const QString& file) { return { "-jar", jarPath(), "check", file, params, keys }; }
+static QStringList argsKeys_Jar()                     { return { "-jar", jarPath(3), "keys"       }; } // придумать как должно работать
 
 // ---- Вариант Б: запуск по классу (если нет Main-Class в JAR) ----
 // static QStringList argsSign_Cls (const QString& file){ return { "", jarPath(), "", "sign",  file }; }
@@ -157,7 +164,7 @@ void Crypto::on_pushButton_CheckSign_clicked()
 }
 
 //KEYS
-void Crypto::on_pushButton_Keys_clicked()
+void Crypto::on_pushButton_Keys_clicked() //gavno убрать
 {
     ui->textEdit_keys->clear();
 
@@ -194,7 +201,7 @@ void Crypto::on_pushButton_fileInputForCheck_clicked()
     ui->textEdit_FileNameCheckSign->setText(filePath_Check);
 
 }
-void Crypto::on_pushButton_fileInputForKeys_clicked()
+void Crypto::on_pushButton_fileInputForKeys_clicked() // gavno
 {
     ui->textEdit_FileNameKeys->clear();
     QWidget w;
@@ -206,7 +213,7 @@ void Crypto::on_pushButton_fileInputForSign_Keys_clicked()
 {
     ui->textEdit_FileNameKeys->clear();
     QWidget w;
-    QString filePath_Sign_Keys = QFileDialog::getOpenFileName(&w,"Открыть файл",QDir::homePath(),"Текстовые (*.txt);;Все файлы (*.*)");
+    QString filePath_Sign_Keys = QFileDialog::getExistingDirectory(&w,"Выбрать папку",QDir::homePath());
     ui->textEdit_FileNameKeys->setText(filePath_Sign_Keys);
 
 }
@@ -221,14 +228,14 @@ void Crypto::on_pushButton_fileInputForCheck_Params_clicked()
 {
     ui->textEdit_FileNameCheck_Params->clear();
     QWidget w;
-    QString filePath_Sign_Keys = QFileDialog::getOpenFileName(&w,"Открыть файл",QDir::homePath(),"Текстовые (*.txt);;Все файлы (*.*)");
+    QString filePath_Sign_Keys = QFileDialog::getOpenFileName(&w,"Открыть файл",QDir::homePath(),"Параметры (*.propetries)");
     ui->textEdit_FileNameCheck_Params->setText(filePath_Sign_Keys);
 }
 void Crypto::on_pushButton_fileInputForSign_Params_clicked()
 {
     ui->textEdit_FileNameParams->clear();
     QWidget w;
-    QString filePath_Sign_Keys = QFileDialog::getOpenFileName(&w,"Открыть файл",QDir::homePath(),"Текстовые (*.txt);;Все файлы (*.*)");
+    QString filePath_Sign_Keys = QFileDialog::getOpenFileName(&w,"Открыть файл",QDir::homePath(),"Параметры (*.properties)");
     ui->textEdit_FileNameParams->setText(filePath_Sign_Keys);
 }
 
