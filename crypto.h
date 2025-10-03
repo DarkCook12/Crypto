@@ -24,12 +24,8 @@ private slots:
 
     void on_pushButton_Sign_clicked();
 
-    void on_pushButton_Keys_clicked();
-
     void on_pushButton_CheckSign_clicked();
 
-
-    void on_pushButton_fileInputForKeys_clicked();
 
     void on_pushButton_fileInputForSign_Keys_clicked();
 
