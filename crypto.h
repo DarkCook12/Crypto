@@ -35,6 +35,8 @@ private slots:
 
     void on_pushButton_fileInputForSign_Params_clicked();
 
+    void on_pushButton_clicked();
+
 private:
     Ui::Crypto *ui;
 };

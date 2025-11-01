@@ -47,10 +47,8 @@ void Crypto::on_pushButton_Sign_clicked()
 
     QJsonObject o; QString perr;
     if (JavaExtentions::parseJson(out, &o, &perr)) {
-        ui->output->append(QStringLiteral("SIGN: %1\nsize=%2\nsignature=%3")
-                                  .arg(o.value("filename").toString())
-                                  .arg(o.value("size").toInt())
-                                  .arg(o.value("signature").toString()));
+        QString message = QStringLiteral("Имя файла: %1\nРазмер файла=%2\n").arg(o.value("filename").toString()).arg(o.value("size").toInt());
+        QMessageBox::information(this, "Подпись\n",message);
     } else {
         QMessageBox::warning(this,"Подпись","Ответ (не-JSON):\n" + out + (stderrText.isEmpty() ? "" : "\n\nstderr:\n"+stderrText));
     }
@@ -85,10 +83,8 @@ void Crypto::on_pushButton_CheckSign_clicked()
 
     QJsonObject o; QString perr;
     if (JavaExtentions::parseJson(out, &o, &perr)) {
-        ui->output->append(QStringLiteral("CHECK: %1 -> ok=%2")
-                                  .arg(o.value("filename").toString())
-                                  .arg(o.value("ok").toBool() ? "true" : "false"));
-       QMessageBox::information(this,"Проверка подписи","Подпись действительна");
+        QString message = QStringLiteral("CHECK: %1 -> ok=%2").arg(o.value("filename").toString()).arg(o.value("ok").toBool() ? "true" : "false");
+       QMessageBox::information(this,"Проверка подписи",message);
     } else {
         QMessageBox::warning(this,"Подпись","Ответ (не-JSON):\n" + out + (stderrText.isEmpty() ? "" : "\n\nstderr:\n"+stderrText));
     }
@@ -119,7 +115,6 @@ void Crypto::on_pushButton_fileInputForCheck_clicked()
 {
     fileInput(ui->textEdit_FileNameCheckSign,"Все файлы (*.*)");
 }
-
 void Crypto::on_pushButton_fileInputForSign_Keys_clicked()
 {
     fileInput(ui->textEdit_FileNameKeys,"",true);
@@ -137,5 +132,17 @@ void Crypto::on_pushButton_fileInputForCheck_Params_clicked()
 void Crypto::on_pushButton_fileInputForSign_Params_clicked()
 {
     fileInput(ui->textEdit_FileNameParams,"Параметры (*.properties*)");
+}
+
+
+void Crypto::on_pushButton_clicked()
+{
+    ui->textEdit_FileNameCheckSign->setText("C:/Users/user/Desktop/Саня.docx");
+    ui->textEdit_FileNameKeys->setText("C:/Users/user/Desktop");
+    ui->textEdit_FileNameParams->setText("C:/Users/user/Documents/Crypto/параметры.properties");
+    ui->textEdit_FileNameSign->setText("C:/Users/user/Desktop/Саня.docx");
+    ui->textEdit_FileNameCheckSign_Keys->setText("C:/Users/user/Desktop/Саня.docx");
+    ui->textEdit_FileNameCheck_Params->setText("C:/Users/user/Documents/Crypto/параметры.properties");
+
 }
 
