@@ -53,8 +53,8 @@
     }
 
     // ---- Вариант А: запуск JAR с Main-Class ----
-    QStringList JavaExtentions::argsSign_Jar(const QString& file)  { return { "-jar", jarPath(1), "sign",  file }; } // добавить файл с параметрами и ключами static QStringList argsSign_Jar(const QString& file)  { return { "-jar", jarPath(), "sign",  file, params, keys }; }
-    QStringList JavaExtentions::argsCheck_Jar(const QString& file) { return { "-jar", jarPath(2), "check", file }; } // добавить файл с параметрами и ключами static QStringList argsCheck_Jar(const QString& file) { return { "-jar", jarPath(), "check", file, params, keys }; }
+    QStringList JavaExtentions::argsSign_Jar(const QString& file, const QString& keys_dir, const QString& params)  { return { "-jar", jarPath(1), "sign", params, file, keys_dir }; }
+    QStringList JavaExtentions::argsCheck_Jar(const QString& file, const QString& keys, const QString& params) { return { "-jar", jarPath(2), "verify", file, keys, params }; }
     QStringList JavaExtentions::argsKeys_Jar()                     { return { "-jar", jarPath(3), "keys"       }; } // придумать как должно работать
 
     // ---- Вариант Б: запуск по классу (если нет Main-Class в JAR) ----

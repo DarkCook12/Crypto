@@ -20,7 +20,6 @@ Crypto::~Crypto()
 //SIGN
 void Crypto::on_pushButton_Sign_clicked()
 {
-    ui->output->clear();
     const QString filePath = ui->textEdit_FileNameSign->toPlainText().trimmed();
     if (filePath.isEmpty() || !QFileInfo::exists(filePath)) {
         QMessageBox::warning(this, "Внимание", "Укажите существующий файл для подписи");
@@ -38,20 +37,14 @@ void Crypto::on_pushButton_Sign_clicked()
     }
 
     QString stderrText; int code = 0;
-    const auto out = JavaExtentions::runJavaProcess(JavaExtentions::javaExePath(), JavaExtentions::argsSign_Jar(filePath), 60000, &stderrText, &code);
-    //   const auto out = runJavaProcess(javaExePath(), argsSign_Jar(filePath, filePathParams, filePathKeys), 60000, &stderrText, &code);
+    const auto out = JavaExtentions::runJavaProcess(JavaExtentions::javaExePath(), JavaExtentions::argsSign_Jar(filePath, filePathKeys, filePathParams), 60000, &stderrText, &code);
     if (code != 0 && !stderrText.isEmpty()) {
         QMessageBox::warning(this,"Подпись",QStringLiteral("Java stderr:\n%1").arg(stderrText));
         return;
     }
 
-    QJsonObject o; QString perr;
-    if (JavaExtentions::parseJson(out, &o, &perr)) {
-        QString message = QStringLiteral("Имя файла: %1\nРазмер файла=%2\n").arg(o.value("filename").toString()).arg(o.value("size").toInt());
-        QMessageBox::information(this, "Подпись\n",message);
-    } else {
-        QMessageBox::warning(this,"Подпись","Ответ (не-JSON):\n" + out + (stderrText.isEmpty() ? "" : "\n\nstderr:\n"+stderrText));
-    }
+    QMessageBox::information(this, "Результат подписи",
+        out + (stderrText.isEmpty() ? "" : "\n\nstderr:\n" + stderrText));
 }
 
 // CHECK
@@ -74,20 +67,14 @@ void Crypto::on_pushButton_CheckSign_clicked()
     }
 
     QString stderrText; int code = 0;
-    const auto out = JavaExtentions::runJavaProcess(JavaExtentions::javaExePath(), JavaExtentions::argsCheck_Jar(filePath), 60000, &stderrText, &code);
-    // const auto out = runJavaProcess(javaExePath(), argsCheck_Jar(filePath, filePathParams, filePathKeys), 60000, &stderrText, &code)
+    const auto out = JavaExtentions::runJavaProcess(JavaExtentions::javaExePath(), JavaExtentions::argsCheck_Jar(filePath, filePathKeys, filePathParams), 60000, &stderrText, &code);
     if (code != 0 && !stderrText.isEmpty()) {
         QMessageBox::warning(this,"Подпись",QStringLiteral("Java stderr:\n%1").arg(stderrText));
         return;
     }
 
-    QJsonObject o; QString perr;
-    if (JavaExtentions::parseJson(out, &o, &perr)) {
-        QString message = QStringLiteral("CHECK: %1 -> ok=%2").arg(o.value("filename").toString()).arg(o.value("ok").toBool() ? "true" : "false");
-       QMessageBox::information(this,"Проверка подписи",message);
-    } else {
-        QMessageBox::warning(this,"Подпись","Ответ (не-JSON):\n" + out + (stderrText.isEmpty() ? "" : "\n\nstderr:\n"+stderrText));
-    }
+    QMessageBox::information(this, "Результат проверки",
+        out + (stderrText.isEmpty() ? "" : "\n\nstderr:\n" + stderrText));
 }
 
 
@@ -127,22 +114,22 @@ void Crypto::on_pushButton_fileInputForCheck_Keys_clicked()
 }
 void Crypto::on_pushButton_fileInputForCheck_Params_clicked()
 {
-    fileInput(ui->textEdit_FileNameCheck_Params,"Параметры (*.properties*)");
+    fileInput(ui->textEdit_FileNameCheck_Params,"Параметры (*.txt*)");
 }
 void Crypto::on_pushButton_fileInputForSign_Params_clicked()
 {
-    fileInput(ui->textEdit_FileNameParams,"Параметры (*.properties*)");
+    fileInput(ui->textEdit_FileNameParams,"Параметры (*.txt*)");
 }
 
 
 void Crypto::on_pushButton_clicked()
 {
-    ui->textEdit_FileNameCheckSign->setText("C:/Users/user/Desktop/Саня.docx");
-    ui->textEdit_FileNameKeys->setText("C:/Users/user/Desktop");
-    ui->textEdit_FileNameParams->setText("C:/Users/user/Documents/Crypto/параметры.properties");
-    ui->textEdit_FileNameSign->setText("C:/Users/user/Desktop/Саня.docx");
-    ui->textEdit_FileNameCheckSign_Keys->setText("C:/Users/user/Desktop/Саня.docx");
-    ui->textEdit_FileNameCheck_Params->setText("C:/Users/user/Documents/Crypto/параметры.properties");
+    ui->textEdit_FileNameCheckSign->setText("D:/zalupa.docx");
+    ui->textEdit_FileNameKeys->setText("D:/keys");
+    ui->textEdit_FileNameParams->setText("D:/params.txt");
+    ui->textEdit_FileNameSign->setText("D:/zalupa.docx");
+    ui->textEdit_FileNameCheckSign_Keys->setText("D:/keys/public_key.txt");
+    ui->textEdit_FileNameCheck_Params->setText("D:/params.txt");
 
 }
 

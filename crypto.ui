@@ -336,16 +336,6 @@
      </property>
     </widget>
    </widget>
-   <widget class="QTextEdit" name="output">
-    <property name="geometry">
-     <rect>
-      <x>60</x>
-      <y>550</y>
-      <width>551</width>
-      <height>71</height>
-     </rect>
-    </property>
-   </widget>
    <widget class="QPushButton" name="pushButton">
     <property name="geometry">
      <rect>
@@ -366,7 +356,7 @@
      <x>0</x>
      <y>0</y>
      <width>780</width>
-     <height>17</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>
