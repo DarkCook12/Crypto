@@ -10,10 +10,9 @@ class JavaExtentions {
 public:
     static QString runJavaProcess(const QString& javaExe, const QStringList& args,int timeoutMs,QString* stderrOut, int* exitCode);
     static QString javaExePath();
-    static QString jarPath(int  number_operation);
+    static QString jarPath();
     static QStringList argsSign_Jar(const QString& file, const QString& keys_dir, const QString& params );
     static QStringList argsCheck_Jar(const QString& file, const QString& keys, const QString& params);
-    static QStringList argsKeys_Jar();
     static bool parseJson(const QString& json, QJsonObject* out, QString* error);
 };
 

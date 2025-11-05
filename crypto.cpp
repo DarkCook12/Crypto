@@ -17,7 +17,7 @@ Crypto::~Crypto()
     delete ui;
 }
 
-//SIGN
+
 void Crypto::on_pushButton_Sign_clicked()
 {
     const QString filePath = ui->textEdit_FileNameSign->toPlainText().trimmed();
@@ -47,7 +47,6 @@ void Crypto::on_pushButton_Sign_clicked()
         out + (stderrText.isEmpty() ? "" : "\n\nstderr:\n" + stderrText));
 }
 
-// CHECK
 void Crypto::on_pushButton_CheckSign_clicked()
 {
     const QString filePath = ui->textEdit_FileNameCheckSign->toPlainText().trimmed();
@@ -124,12 +123,14 @@ void Crypto::on_pushButton_fileInputForSign_Params_clicked()
 
 void Crypto::on_pushButton_clicked()
 {
-    ui->textEdit_FileNameCheckSign->setText("D:/zalupa.docx");
-    ui->textEdit_FileNameKeys->setText("D:/keys");
-    ui->textEdit_FileNameParams->setText("D:/params.txt");
-    ui->textEdit_FileNameSign->setText("D:/zalupa.docx");
-    ui->textEdit_FileNameCheckSign_Keys->setText("D:/keys/public_key.txt");
-    ui->textEdit_FileNameCheck_Params->setText("D:/params.txt");
-
+    int PC = 1;
+    if (PC == 1){
+        ui->textEdit_FileNameCheckSign->setText("C:/Users/user/Documents/отпросиловки конфетник.docx");
+        ui->textEdit_FileNameKeys->setText("C:/Users/user/Documents");
+        ui->textEdit_FileNameParams->setText("C:/Users/user/Documents/params.txt");
+        ui->textEdit_FileNameSign->setText("C:/Users/user/Documents/отпросиловки конфетник.docx");
+        ui->textEdit_FileNameCheckSign_Keys->setText("C:/Users/user/Documents/public_key.txt");
+        ui->textEdit_FileNameCheck_Params->setText("C:/Users/user/Documents/params.txt");
+    }
 }
 

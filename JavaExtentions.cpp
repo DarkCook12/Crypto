@@ -28,7 +28,7 @@
         return QString::fromUtf8(p.readAllStandardOutput());
     }
 
-    // Обёртки: настрой тут ОДИН из двух режимов — JAR или класс:
+
     QString JavaExtentions::javaExePath()
     {
 #ifdef Q_OS_WIN
@@ -38,31 +38,17 @@
 #endif
     }
 
-    QString JavaExtentions::jarPath(int  number_operation)
+    QString JavaExtentions::jarPath()
     {
-        if(number_operation == 1){
-            return QCoreApplication::applicationDirPath() + "/analyzer.jar"; //sign.jar
-        }
-        else if(number_operation == 2){
-            return QCoreApplication::applicationDirPath() + "/analyzer.jar"; // check.jar
-        }
-        else if(number_operation == 3){
-            return QCoreApplication::applicationDirPath() + "/analyzer.jar"; // generate_keys
-        }
-        return 0;
+            return QCoreApplication::applicationDirPath() + "/analyzer.jar";
     }
 
-    // ---- Вариант А: запуск JAR с Main-Class ----
-    QStringList JavaExtentions::argsSign_Jar(const QString& file, const QString& keys_dir, const QString& params)  { return { "-jar", jarPath(1), "sign", params, file, keys_dir }; }
-    QStringList JavaExtentions::argsCheck_Jar(const QString& file, const QString& keys, const QString& params) { return { "-jar", jarPath(2), "verify", file, keys, params }; }
-    QStringList JavaExtentions::argsKeys_Jar()                     { return { "-jar", jarPath(3), "keys"       }; } // придумать как должно работать
+    QStringList JavaExtentions::argsSign_Jar(const QString& file, const QString& keys_dir, const QString& params)  { return { "-jar", jarPath(), "sign", params, file, keys_dir }; }
+    QStringList JavaExtentions::argsCheck_Jar(const QString& file, const QString& keys, const QString& params) { return { "-jar", jarPath(), "verify", file, keys, params }; }
 
-    // ---- Вариант Б: запуск по классу (если нет Main-Class в JAR) ----
-    // static QStringList argsSign_Cls (const QString& file){ return { "", jarPath(), "", "sign",  file }; }
-    // static QStringList argsCheck_Cls(const QString& file){ return { "", jarPath(), "", "check", file }; }
-    // static QStringList argsKeys_Cls()                    { return { "-", jarPath(), "Main", "keys"       }; }
 
-    bool JavaExtentions::parseJson(const QString& json, QJsonObject* out, QString* error) // подумать над парсингом и как это выводить
+
+    bool JavaExtentions::parseJson(const QString& json, QJsonObject* out, QString* error)
     {
         QJsonParseError pe{};
         auto doc = QJsonDocument::fromJson(json.toUtf8(), &pe);
